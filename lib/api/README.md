@@ -7,6 +7,6 @@ Example (namespace Validate, method getPayServerIps, version 1, doesn't require 
 
 ```js
 module.exports = {
-  'getPayServerIps/v1': false
+  'getPayServerIps/v1' : false
 };
 ```

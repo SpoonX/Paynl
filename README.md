@@ -13,9 +13,8 @@ Usage is pretty straight forward. There aren't that many methods, which is what 
 If you don't need to use methods that require a handshake, you can create a new instance like so:
 
 ```js
-var pay = require('paynl');
-
-var pay = new Pay();
+var Paynl = require('paynl')
+  , pay   = new Paynl();
 
 pay.invoke('Validate/getPayServerIps/v1').done(function(response) {
   console.log(response);
@@ -30,11 +29,12 @@ If you wish to use methods that require authentication you must instantiate `Pay
 You can authenticate using your [API token](https://docs.pay.nl/api_token).
 
 ```js
-var pay = require('paynl');
+var Paynl = require('paynl')
+  , pay;
 
-var pay = new Paynl({
-  accountId: '1234',
-  token    : '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'
+pay = new Paynl({
+  accountId : '1234',
+  token     : '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'
 });
 
 pay.invoke('Session/getPaymentOptions/v2', {
@@ -52,12 +52,13 @@ pay.invoke('Session/getPaymentOptions/v2', {
 It's also possible to login using your credentials.
 
 ```js
-var pay = require('paynl');
+var Paynl = require('paynl')
+  , pay;
 
-var pay = new Paynl({
-  username : 'YOUR_USERNAME',
-  password : 'YOUR_PASSWORD',
-  companyId: 'YOUR_COMPANY_ID'
+pay = new Paynl({
+  username  : 'YOUR_USERNAME',
+  password  : 'YOUR_PASSWORD',
+  companyId : 'YOUR_COMPANY_ID'
 });
 
 pay.invoke('Session/getPaymentOptions/v2', {

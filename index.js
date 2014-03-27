@@ -31,19 +31,19 @@ function Paynl(config) {
 
 /**
  * Paynl prototype.
- * @type {{configure: configure, invoke: invoke}}
+ * @type {{configure : configure, invoke : invoke}}
  */
 Paynl.prototype = {
 
   /**
    * Config options for the Paynl instance.
    */
-  config: {
-    apiUrl          : 'rest-api.pay.nl',
-    handshakeUser   : 'handshake',
-    apiProtocol     : 'https',
-    handshakeTimeout: 3600, // Create a new handshake every hour.
-    responseFormat  : 'json'
+  config : {
+    apiUrl           : 'rest-api.pay.nl',
+    handshakeUser    : 'handshake',
+    apiProtocol      : 'https',
+    handshakeTimeout : 3600, // Create a new handshake every hour.
+    responseFormat   : 'json'
   },
 
   /**
@@ -51,7 +51,7 @@ Paynl.prototype = {
    *
    * @param {{}} config
    */
-  configure: function(config) {
+  configure : function(config) {
     extend(this.config, config);
   },
 
@@ -59,10 +59,10 @@ Paynl.prototype = {
    * Invoke an API call.
    *
    * @param {String}  method  The method to call. Formatted as "namespace/method/version".
-   *                          Example: Enduser/export/v3
+   *                          Example : Enduser/export/v3
    * @param {{}}      params  The parameters to send along with this API call.
    */
-  invoke: function(method, params) {
+  invoke : function(method, params) {
     // Define variables used in this scope.
     var parts, namespace, action, version, urlObject, requiresHandshake, deferred;
 
@@ -88,9 +88,9 @@ Paynl.prototype = {
     action            = parts[1];
     version           = parts[2];
     urlObject         = {
-      protocol: this.config.apiProtocol,
-      hostname: this.config.apiUrl,
-      pathname: [version, namespace, action, this.config.responseFormat].join('/')
+      protocol : this.config.apiProtocol,
+      hostname : this.config.apiUrl,
+      pathname : [version, namespace, action, this.config.responseFormat].join('/')
     };
 
     // Check if we have params
@@ -125,7 +125,7 @@ Paynl.prototype = {
    * @param urlObject
    * @returns {Q.promise}
    */
-  request: function(urlObject) {
+  request : function(urlObject) {
     // Define variables used in this scope.
     var requestUrl, deferred, bodyParser;
 
@@ -149,7 +149,7 @@ Paynl.prototype = {
    *
    * @returns {Q.promise}
    */
-  handshake: function() {
+  handshake : function() {
     // Define variables used in this scope.
     var method, config, params, version, deferred, now, authString;
 
@@ -180,16 +180,16 @@ Paynl.prototype = {
         method  = 'loginByToken';
         version = 'v2';
         params  = {
-          accountId: config.accountId,
-          token    : shasum.update(config.token + Math.floor(now / 1000), 'utf8').digest('hex')
+          accountId : config.accountId,
+          token     : shasum.update(config.token + Math.floor(now / 1000), 'utf8').digest('hex')
         };
       } else if (config.username && config.password && config.companyId) {
         method  = 'login';
         version = 'v2';
         params  = {
-          username : config.username,
-          password : config.password,
-          companyId: config.companyId
+          username  : config.username,
+          password  : config.password,
+          companyId : config.companyId
         };
       } else {
         return deferred.reject(new Error('Can\'t create handshake without credentials.'));
