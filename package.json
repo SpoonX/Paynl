@@ -1,0 +1,29 @@
+{
+  "name": "paynl",
+  "version": "0.0.1",
+  "description": "A pay.nl API convenience layer for nodeJS.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:SpoonX/Paynl.git"
+  },
+  "keywords": [
+    "pay",
+    "nl",
+    "psp",
+    "node",
+    "api"
+  ],
+  "author": "RWOverdijk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SpoonX/Paynl/issues"
+  },
+  "homepage": "https://github.com/SpoonX/Paynl",
+  "dependencies": {
+    "ip": "~0.3.0",
+    "q": "~1.0.1",
+    "extend": "~1.2.1",
+    "request": "~2.34.0"
+  }
+}
