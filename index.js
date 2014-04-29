@@ -203,7 +203,7 @@ Paynl.prototype = {
         return deferred.reject(new Error('Can\'t create handshake without credentials.'));
       }
 
-      if(config.ipAddress) {
+      if (config.ipAddress) {
         params.ipAddress = config.ipAddress;
       } else {
         params.ipAddress = ip.address();
