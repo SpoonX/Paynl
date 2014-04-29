@@ -15,7 +15,6 @@ var ip            = require('ip')
   , url           = require('url')
   , request       = require('request')
   , crypto        = require('crypto')
-  , shasum        = crypto.createHash('sha1')
   , handshake     = false
   , handshakeTime = 0;
 
@@ -175,6 +174,8 @@ Paynl.prototype = {
 
     // Delay execution so we can reject the promise (if needed).
     process.nextTick(function getHandshake() {
+      var shasum = crypto.createHash('sha1');
+
       // Check if we're logging in by token, or credentials.
       if (config.accountId && config.token) {
         method  = 'loginByToken';
