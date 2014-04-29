@@ -184,6 +184,13 @@ Paynl.prototype = {
           accountId : config.accountId,
           token     : shasum.update(config.token + Math.floor(now / 1000), 'utf8').digest('hex')
         };
+      } else if (config.tokenId && config.token) {
+        method  = 'loginToken';
+        version = 'v3';
+        params  = {
+          tokenId : config.tokenId,
+          token   : shasum.update(config.token + Math.floor(now / 1000), 'utf8').digest('hex')
+        };
       } else if (config.username && config.password && config.companyId) {
         method  = 'login';
         version = 'v2';
@@ -196,7 +203,11 @@ Paynl.prototype = {
         return deferred.reject(new Error('Can\'t create handshake without credentials.'));
       }
 
-      params.ipAddress = ip.address();
+      if(config.ipAddress) {
+        params.ipAddress = config.ipAddress;
+      } else {
+        params.ipAddress = ip.address();
+      }
 
       // Call Pay, and ask for a handshake key.
       return this.invoke(['Authentication', method, version].join('/'), params).then(function(response) {
