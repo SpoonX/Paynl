@@ -25,8 +25,31 @@ pay.invoke('Validate/getPayServerIps/v1').done(function(response) {
 ### Handshake
 If you wish to use methods that require authentication you must instantiate `Paynl` with params.
 
-#### AccountId and token (recommended)
-You can authenticate using your [API token](https://docs.pay.nl/api_token).
+#### TokenId and token (recommended)
+You can authenticate using your [API token](https://admin.pay.nl/my_merchant).
+
+```js
+var Paynl = require('paynl')
+  , pay;
+
+pay = new Paynl({
+  tokenId : 'AT-1234-9876',
+  token   : '7110eda4d09e062aa5e4a390b0a572ac0d2c0220'
+});
+
+pay.invoke('Session/getPaymentOptions/v2', {
+  programId : 1234,
+  websiteId : 1234
+}).then(function(response) {
+  console.log(response);
+}, function(error) {
+  console.log('We got an error!', error);
+});
+
+```
+
+#### AccountId and token
+You can authenticate using your [API token](https://admin.pay.nl/my_merchant).
 
 ```js
 var Paynl = require('paynl')

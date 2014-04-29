@@ -15,7 +15,6 @@ var ip            = require('ip')
   , url           = require('url')
   , request       = require('request')
   , crypto        = require('crypto')
-  , shasum        = crypto.createHash('sha1')
   , handshake     = false
   , handshakeTime = 0;
 
@@ -175,6 +174,8 @@ Paynl.prototype = {
 
     // Delay execution so we can reject the promise (if needed).
     process.nextTick(function getHandshake() {
+      var shasum = crypto.createHash('sha1');
+
       // Check if we're logging in by token, or credentials.
       if (config.accountId && config.token) {
         method  = 'loginByToken';
@@ -182,6 +183,13 @@ Paynl.prototype = {
         params  = {
           accountId : config.accountId,
           token     : shasum.update(config.token + Math.floor(now / 1000), 'utf8').digest('hex')
+        };
+      } else if (config.tokenId && config.token) {
+        method  = 'loginToken';
+        version = 'v3';
+        params  = {
+          tokenId : config.tokenId,
+          token   : shasum.update(config.token + Math.floor(now / 1000), 'utf8').digest('hex')
         };
       } else if (config.username && config.password && config.companyId) {
         method  = 'login';
@@ -195,7 +203,11 @@ Paynl.prototype = {
         return deferred.reject(new Error('Can\'t create handshake without credentials.'));
       }
 
-      params.ipAddress = ip.address();
+      if (config.ipAddress) {
+        params.ipAddress = config.ipAddress;
+      } else {
+        params.ipAddress = ip.address();
+      }
 
       // Call Pay, and ask for a handshake key.
       return this.invoke(['Authentication', method, version].join('/'), params).then(function(response) {
