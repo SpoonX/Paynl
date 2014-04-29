@@ -1,6 +1,6 @@
 {
   "name": "paynl",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A pay.nl API convenience layer for nodeJS.",
   "main": "index.js",
   "repository": {
