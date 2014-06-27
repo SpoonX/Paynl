@@ -164,7 +164,7 @@ Paynl.prototype = {
     // Create a new deferred instance.
     deferred = Q.defer();
 
-    if (handshake && handshakeTime + config.handshakeTimeout > now) {
+    if (handshake && handshakeTime + (config.handshakeTimeout * 1000) > now) {
       process.nextTick(function() {
         deferred.resolve(authString + handshake);
       });
