@@ -1,0 +1,166 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Paynl by SpoonX</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Paynl</h1>
+        <p class="header">A pay.nl API convenience layer for nodeJS.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/SpoonX/Paynl/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/SpoonX/Paynl/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/SpoonX/Paynl">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/SpoonX">SpoonX</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="paynl" class="anchor" href="#paynl"><span class="octicon octicon-link"></span></a>Paynl</h1>
+
+<p>This is a very simple (both built, and to use) module to communicate with the <a href="http://pay.nl/">PayNL</a> API.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Super simple. Just do the following:</p>
+
+<p><code>npm install paynl --save</code></p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Usage is pretty straight forward. There aren't that many methods, which is what makes this module so easy to use.</p>
+
+<h3>
+<a name="no-handshake" class="anchor" href="#no-handshake"><span class="octicon octicon-link"></span></a>No handshake</h3>
+
+<p>If you don't need to use methods that require a handshake, you can create a new instance like so:</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">Paynl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'paynl'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">pay</span>   <span class="o">=</span> <span class="k">new</span> <span class="nx">Paynl</span><span class="p">();</span>
+
+<span class="nx">pay</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">'Validate/getPayServerIps/v1'</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h3>
+<a name="handshake" class="anchor" href="#handshake"><span class="octicon octicon-link"></span></a>Handshake</h3>
+
+<p>If you wish to use methods that require authentication you must instantiate <code>Paynl</code> with params.</p>
+
+<h4>
+<a name="tokenid-and-token-recommended" class="anchor" href="#tokenid-and-token-recommended"><span class="octicon octicon-link"></span></a>TokenId and token (recommended)</h4>
+
+<p>You can authenticate using your <a href="https://admin.pay.nl/my_merchant">API token</a>.</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">Paynl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'paynl'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">pay</span><span class="p">;</span>
+
+<span class="nx">pay</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Paynl</span><span class="p">({</span>
+  <span class="nx">tokenId</span> <span class="o">:</span> <span class="s1">'AT-1234-9876'</span><span class="p">,</span>
+  <span class="nx">token</span>   <span class="o">:</span> <span class="s1">'7110eda4d09e062aa5e4a390b0a572ac0d2c0220'</span>
+<span class="p">});</span>
+
+<span class="nx">pay</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">'Session/getPaymentOptions/v2'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">programId</span> <span class="o">:</span> <span class="mi">1234</span><span class="p">,</span>
+  <span class="nx">websiteId</span> <span class="o">:</span> <span class="mi">1234</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'We got an error!'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h4>
+<a name="accountid-and-token" class="anchor" href="#accountid-and-token"><span class="octicon octicon-link"></span></a>AccountId and token</h4>
+
+<p>You can authenticate using your <a href="https://admin.pay.nl/my_merchant">API token</a>.</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">Paynl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'paynl'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">pay</span><span class="p">;</span>
+
+<span class="nx">pay</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Paynl</span><span class="p">({</span>
+  <span class="nx">accountId</span> <span class="o">:</span> <span class="s1">'1234'</span><span class="p">,</span>
+  <span class="nx">token</span>     <span class="o">:</span> <span class="s1">'7110eda4d09e062aa5e4a390b0a572ac0d2c0220'</span>
+<span class="p">});</span>
+
+<span class="nx">pay</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">'Session/getPaymentOptions/v2'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">programId</span> <span class="o">:</span> <span class="mi">1234</span><span class="p">,</span>
+  <span class="nx">websiteId</span> <span class="o">:</span> <span class="mi">1234</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'We got an error!'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h4>
+<a name="username-password-and-companyid" class="anchor" href="#username-password-and-companyid"><span class="octicon octicon-link"></span></a>Username, password and companyId</h4>
+
+<p>It's also possible to login using your credentials.</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">Paynl</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'paynl'</span><span class="p">)</span>
+  <span class="p">,</span> <span class="nx">pay</span><span class="p">;</span>
+
+<span class="nx">pay</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Paynl</span><span class="p">({</span>
+  <span class="nx">username</span>  <span class="o">:</span> <span class="s1">'YOUR_USERNAME'</span><span class="p">,</span>
+  <span class="nx">password</span>  <span class="o">:</span> <span class="s1">'YOUR_PASSWORD'</span><span class="p">,</span>
+  <span class="nx">companyId</span> <span class="o">:</span> <span class="s1">'YOUR_COMPANY_ID'</span>
+<span class="p">});</span>
+
+<span class="nx">pay</span><span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="s1">'Session/getPaymentOptions/v2'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">programId</span> <span class="o">:</span> <span class="mi">1234</span><span class="p">,</span>
+  <span class="nx">websiteId</span> <span class="o">:</span> <span class="mi">1234</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'We got an error!'</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h3>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h3>
+
+<p>To check out all possible API methods go to <a href="https://docs.pay.nl/docpanel/api/">the pay.nl API docs</a>.</p>
+
+<p><strong>Note:</strong> You can omit the ip-address. This module adds it for you.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-53335093-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
